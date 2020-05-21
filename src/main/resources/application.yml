@@ -2,14 +2,12 @@ server:
   port: 7999
 spring:
   datasource:
-    url:
-    username:
-    password:
-    schema:
+    url: jdbc:mysql://localhost:3306/arch?characterEncoding=utf8
+    username: root
+    password: abcd123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: common-arch
 logging:
   level:
     root: info
-
-

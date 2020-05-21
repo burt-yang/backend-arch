@@ -9,6 +9,7 @@ package com.practice.arch.commonarch.component;
 
 import com.practice.arch.commonarch.service.TokenService;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,14 +33,10 @@ import java.io.IOException;
  * Created by byang059 on 5/17/20
  */
 public class TokenAuthenticationFilter extends GenericFilterBean {
-
+    @Autowired
     private AuthenticationEntryPoint entryPoint;
+    @Autowired
     private AuthenticationManager authenticationManager;
-
-    public TokenAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationEntryPoint entryPoint) {
-        this.authenticationManager = authenticationManager;
-        this.entryPoint = entryPoint;
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

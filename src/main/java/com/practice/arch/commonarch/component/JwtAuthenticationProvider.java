@@ -15,6 +15,7 @@ import com.practice.arch.commonarch.service.TokenService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,13 +28,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
  */
 public class JwtAuthenticationProvider implements AuthenticationProvider {
 
+    @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
     private TokenService tokenService;
-
-    public JwtAuthenticationProvider(UserDetailsService userDetailsService, TokenService tokenService) {
-        this.userDetailsService = userDetailsService;
-        this.tokenService = tokenService;
-    }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {

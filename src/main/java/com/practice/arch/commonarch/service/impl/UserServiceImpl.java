@@ -7,10 +7,12 @@
 
 package com.practice.arch.commonarch.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.collect.Lists;
 import com.practice.arch.commonarch.domain.po.RolePO;
 import com.practice.arch.commonarch.domain.po.UserPO;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
+import com.practice.arch.commonarch.repository.UserRepository;
 import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     TokenService tokenService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

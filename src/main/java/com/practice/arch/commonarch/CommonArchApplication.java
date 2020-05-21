@@ -11,6 +11,4 @@ public class CommonArchApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CommonArchApplication.class, args);
 	}
-
-
 }
