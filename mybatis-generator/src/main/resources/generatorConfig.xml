@@ -14,25 +14,45 @@
         <!-- 为生成的Java模型创建一个toString方法 -->
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
         <!--生成mapper.xml时覆盖原文件-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
-        
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <!--生成Equals和HashCode方法-->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!--重命名domain包中的Example为Criteria-->
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+        <!--重命名repository包中的Mapper为Repository-->
+        <plugin type="com.practice.arch.generator.RenameJavaMapperPlugin">
+            <property name="searchString" value="Mapper$"/>
+            <property name="replaceString" value="Repository"/>
+        </plugin>
+        <commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
         <jdbcConnection driverClass="${jdbc.driverClass}"
                         connectionURL="${jdbc.connectionURL}"
                         userId="${jdbc.userId}"
                         password="${jdbc.password}">
             <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
-            <property name="nullCatalogMeansCurrent" value="true" />
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.practice.arch.generator.domain" targetProject="mybatis-generator/src/main/java"/>
+        <javaModelGenerator targetPackage="com.practice.arch.generator.domain"
+                            targetProject="mybatis-generator/src/main/java"/>
 
         <sqlMapGenerator targetPackage="mapper" targetProject="mybatis-generator/src/main/resources"/>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.practice.arch.generator.mapper"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.practice.arch.generator.repository"
                              targetProject="mybatis-generator/src/main/java"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <!--去除class的中的数据库前缀-->
+            <domainObjectRenamingRule searchString="^Am" replaceString=""/>
         </table>
     </context>
 </generatorConfiguration>

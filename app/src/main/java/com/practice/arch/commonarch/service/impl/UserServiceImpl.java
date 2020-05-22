@@ -11,11 +11,10 @@ import com.google.common.collect.Lists;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.domain.po.RolePO;
 import com.practice.arch.commonarch.domain.po.UserPO;
-import com.practice.arch.commonarch.repository.UserRepository;
 import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
-import com.practice.arch.generator.domain.AmUser;
-import com.practice.arch.generator.mapper.AmUserMapper;
+import com.practice.arch.generator.domain.User;
+import com.practice.arch.generator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +43,7 @@ public class UserServiceImpl implements UserService {
     TokenService tokenService;
 
     @Autowired
-    AmUserMapper amUserMapper;
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -67,10 +66,10 @@ public class UserServiceImpl implements UserService {
         String accessToken = tokenService.createAccessToken(refreshToken, user);
         user.setAccessToken(accessToken);
         user.setRefreshToken(refreshToken);
-        final AmUser record = new AmUser();
+        final User record = new User();
         record.setEmail("abc@163.com");
         record.setPassword("$2a$10$kvC0enKET/HfqX0RnbGFjOMDoLLaN5D0HepaaE3xCSpsQmCJobQvW");
-        amUserMapper.insert(record);
+        userRepository.insert(record);
         return user;
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by byang059 on 5/22/20
  */
-@MapperScan("com.practice.arch.generator.mapper")
+@MapperScan({"com.practice.arch.generator.repository","com.practice.arch.commonarch.repository"})
 @Configuration
 public class MybatisConfig {
 }

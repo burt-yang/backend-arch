@@ -1,4 +1,4 @@
-/*
+package com.practice.arch.generator;/*
  * Licensed Materials - Property of PwC
  * (c) Copyright Pwc Corp. 2020. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
@@ -13,7 +13,6 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Created by byang059 on 5/22/20
