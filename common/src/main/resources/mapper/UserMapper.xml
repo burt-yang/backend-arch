@@ -176,4 +176,16 @@
       password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from AM_USER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 1
+  </select>
 </mapper>

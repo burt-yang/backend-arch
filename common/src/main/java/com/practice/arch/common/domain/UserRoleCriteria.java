@@ -3,15 +3,15 @@ package com.practice.arch.common.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRoleCriteria {
+public class UserroleCriteria {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UserRoleCriteria() {
-        oredCriteria = new ArrayList<>();
+    public UserroleCriteria() {
+        oredCriteria = new ArrayList<Criteria>();
     }
 
     public void setOrderByClause(String orderByClause) {
@@ -68,7 +68,7 @@ public class UserRoleCriteria {
 
         protected GeneratedCriteria() {
             super();
-            criteria = new ArrayList<>();
+            criteria = new ArrayList<Criterion>();
         }
 
         public boolean isValid() {
@@ -286,6 +286,7 @@ public class UserRoleCriteria {
     }
 
     public static class Criteria extends GeneratedCriteria {
+
         protected Criteria() {
             super();
         }

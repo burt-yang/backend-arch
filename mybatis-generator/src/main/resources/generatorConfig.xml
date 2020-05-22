@@ -17,6 +17,8 @@
         <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
         <!--生成Equals和HashCode方法-->
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!--流式编程方法-->
+        <plugin type="org.mybatis.generator.plugins.FluentBuilderMethodsPlugin"/>
         <!--重命名domain包中的Example为Criteria-->
         <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
             <property name="searchString" value="Example$"/>
@@ -27,6 +29,10 @@
             <property name="searchString" value="Mapper$"/>
             <property name="replaceString" value="Repository"/>
         </plugin>
+        <!--SelectOneByExample-->
+        <plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>
+        <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>
+        <plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin"/>
         <commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>

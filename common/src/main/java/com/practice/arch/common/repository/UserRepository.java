@@ -16,6 +16,8 @@ public interface UserRepository {
 
     int insertSelective(User record);
 
+    User selectOneByExample(UserCriteria example);
+
     List<User> selectByExample(UserCriteria example);
 
     User selectByPrimaryKey(Integer id);

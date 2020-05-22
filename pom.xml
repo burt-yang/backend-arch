@@ -44,9 +44,9 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.2</version>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.13</version>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -127,7 +127,12 @@
             <dependency>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-core</artifactId>
-                <version>1.4.0</version>
+                <version>1.3.7</version>
+            </dependency>
+            <dependency>
+                <groupId>com.itfsw</groupId>
+                <artifactId>mybatis-generator-plugin</artifactId>
+                <version>1.3.8</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>

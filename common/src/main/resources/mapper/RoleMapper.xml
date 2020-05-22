@@ -161,4 +161,16 @@
     set name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.RoleCriteria" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from AM_ROLE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 1
+  </select>
 </mapper>

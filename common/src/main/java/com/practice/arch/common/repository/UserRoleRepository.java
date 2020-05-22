@@ -1,30 +1,32 @@
 package com.practice.arch.common.repository;
 
-import com.practice.arch.common.domain.UserRole;
-import com.practice.arch.common.domain.UserRoleCriteria;
+import com.practice.arch.common.domain.Userrole;
+import com.practice.arch.common.domain.UserroleCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserRoleRepository {
-    long countByExample(UserRoleCriteria example);
+public interface UserroleRepository {
+    long countByExample(UserroleCriteria example);
 
-    int deleteByExample(UserRoleCriteria example);
+    int deleteByExample(UserroleCriteria example);
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(UserRole record);
+    int insert(Userrole record);
 
-    int insertSelective(UserRole record);
+    int insertSelective(Userrole record);
 
-    List<UserRole> selectByExample(UserRoleCriteria example);
+    Userrole selectOneByExample(UserroleCriteria example);
 
-    UserRole selectByPrimaryKey(Integer id);
+    List<Userrole> selectByExample(UserroleCriteria example);
 
-    int updateByExampleSelective(@Param("record") UserRole record, @Param("example") UserRoleCriteria example);
+    Userrole selectByPrimaryKey(Integer id);
 
-    int updateByExample(@Param("record") UserRole record, @Param("example") UserRoleCriteria example);
+    int updateByExampleSelective(@Param("record") Userrole record, @Param("example") UserroleCriteria example);
 
-    int updateByPrimaryKeySelective(UserRole record);
+    int updateByExample(@Param("record") Userrole record, @Param("example") UserroleCriteria example);
 
-    int updateByPrimaryKey(UserRole record);
+    int updateByPrimaryKeySelective(Userrole record);
+
+    int updateByPrimaryKey(Userrole record);
 }

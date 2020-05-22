@@ -16,6 +16,8 @@ public interface RoleRepository {
 
     int insertSelective(Role record);
 
+    Role selectOneByExample(RoleCriteria example);
+
     List<Role> selectByExample(RoleCriteria example);
 
     Role selectByPrimaryKey(Integer id);
