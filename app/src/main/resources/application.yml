@@ -7,7 +7,7 @@ spring:
     password: abcd123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   application:
-    name: library
+    name: application
 logging:
   level:
     root: info

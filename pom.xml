@@ -10,6 +10,7 @@
 
     <modules>
         <module>app</module>
+        <module>common</module>
         <module>mybatis-generator</module>
     </modules>
 
@@ -116,7 +117,7 @@
 
         <dependency>
             <groupId>com.practice.arch</groupId>
-            <artifactId>mybatis-generator</artifactId>
+            <artifactId>common</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

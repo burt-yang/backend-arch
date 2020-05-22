@@ -1,7 +1,7 @@
-package com.practice.arch.generator.repository;
+package com.practice.arch.common.repository;
 
-import com.practice.arch.generator.domain.Role;
-import com.practice.arch.generator.domain.RoleCriteria;
+import com.practice.arch.common.domain.Role;
+import com.practice.arch.common.domain.RoleCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

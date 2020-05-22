@@ -41,13 +41,13 @@
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
-        <javaModelGenerator targetPackage="com.practice.arch.generator.domain"
-                            targetProject="mybatis-generator/src/main/java"/>
+        <javaModelGenerator targetPackage="com.practice.arch.common.domain"
+                            targetProject="common/src/main/java"/>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="mybatis-generator/src/main/resources"/>
+        <sqlMapGenerator targetPackage="mapper" targetProject="common/src/main/resources"/>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.practice.arch.generator.repository"
-                             targetProject="mybatis-generator/src/main/java"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.practice.arch.common.repository"
+                             targetProject="common/src/main/java"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>

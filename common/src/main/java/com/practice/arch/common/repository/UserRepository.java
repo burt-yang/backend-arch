@@ -1,7 +1,7 @@
-package com.practice.arch.generator.repository;
+package com.practice.arch.common.repository;
 
-import com.practice.arch.generator.domain.User;
-import com.practice.arch.generator.domain.UserCriteria;
+import com.practice.arch.common.domain.User;
+import com.practice.arch.common.domain.UserCriteria;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

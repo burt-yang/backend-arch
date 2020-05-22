@@ -8,13 +8,13 @@
 package com.practice.arch.commonarch.service.impl;
 
 import com.google.common.collect.Lists;
+import com.practice.arch.common.domain.User;
+import com.practice.arch.common.repository.UserRepository;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.domain.po.RolePO;
 import com.practice.arch.commonarch.domain.po.UserPO;
 import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
-import com.practice.arch.generator.domain.User;
-import com.practice.arch.generator.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;

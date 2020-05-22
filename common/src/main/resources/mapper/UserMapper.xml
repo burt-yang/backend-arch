@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.arch.generator.repository.RoleRepository">
-  <resultMap id="BaseResultMap" type="com.practice.arch.generator.domain.Role">
+<mapper namespace="com.practice.arch.common.repository.UserRepository">
+  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.User">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name
+    id, email, password
   </sql>
-  <select id="selectByExample" parameterType="com.practice.arch.generator.domain.RoleCriteria" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from AM_ROLE
+    from AM_USER
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,56 +84,65 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from AM_ROLE
+    from AM_USER
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from AM_ROLE
+    delete from AM_USER
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.practice.arch.generator.domain.RoleCriteria">
-    delete from AM_ROLE
+  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.UserCriteria">
+    delete from AM_USER
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.practice.arch.generator.domain.Role">
+  <insert id="insert" parameterType="com.practice.arch.common.domain.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into AM_ROLE (name)
-    values (#{name,jdbcType=VARCHAR})
+    insert into AM_USER (email, password)
+    values (#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.practice.arch.generator.domain.Role">
+  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into AM_ROLE
+    insert into AM_USER
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        name,
+      <if test="email != null">
+        email,
+      </if>
+      <if test="password != null">
+        password,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.practice.arch.generator.domain.RoleCriteria" resultType="java.lang.Long">
-    select count(*) from AM_ROLE
+  <select id="countByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultType="java.lang.Long">
+    select count(*) from AM_USER
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update AM_ROLE
+    update AM_USER
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -140,25 +150,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update AM_ROLE
+    update AM_USER
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR}
+      email = #{record.email,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.generator.domain.Role">
-    update AM_ROLE
+  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.User">
+    update AM_USER
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.practice.arch.generator.domain.Role">
-    update AM_ROLE
-    set name = #{name,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.User">
+    update AM_USER
+    set email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
