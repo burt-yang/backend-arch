@@ -24,15 +24,14 @@
             <property name="searchString" value="Example$"/>
             <property name="replaceString" value="Criteria"/>
         </plugin>
-        <!--重命名repository包中的Mapper为Repository-->
-        <plugin type="com.practice.arch.generator.RenameJavaMapperPlugin">
-            <property name="searchString" value="Mapper$"/>
-            <property name="replaceString" value="Repository"/>
-        </plugin>
         <!--SelectOneByExample-->
         <plugin type="com.itfsw.mybatis.generator.plugins.SelectOneByExamplePlugin"/>
         <plugin type="com.itfsw.mybatis.generator.plugins.ModelColumnPlugin"/>
         <plugin type="com.itfsw.mybatis.generator.plugins.BatchInsertPlugin"/>
+        <plugin type="com.itfsw.mybatis.generator.plugins.TableRenameConfigurationPlugin">
+            <!-- TbMapper -> TbDao, TbMapper.xml -> TbDao.xml -->
+            <property name="clientSuffix" value="Repository"/>
+        </plugin>
         <commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
@@ -57,8 +56,6 @@
         <!--生成全部表tableName设为%-->
         <table tableName="%">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-            <!--去除class的中的数据库前缀-->
-            <domainObjectRenamingRule searchString="^Am" replaceString=""/>
         </table>
     </context>
 </generatorConfiguration>

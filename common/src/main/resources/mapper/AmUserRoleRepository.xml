@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.arch.common.repository.UserroleRepository">
-  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.Userrole">
+<mapper namespace="com.practice.arch.common.repository.AmUserRoleRepository">
+  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.AmUserRole">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
@@ -67,7 +67,7 @@
   <sql id="Base_Column_List">
     id, user_id, role_id
   </sql>
-  <select id="selectByExample" parameterType="com.practice.arch.common.domain.UserroleCriteria" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.practice.arch.common.domain.AmUserRoleCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -91,20 +91,20 @@
     delete from AM_USER_ROLE
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.UserroleCriteria">
+  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.AmUserRoleCriteria">
     delete from AM_USER_ROLE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.practice.arch.common.domain.Userrole">
+  <insert id="insert" parameterType="com.practice.arch.common.domain.AmUserRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into AM_USER_ROLE (user_id, role_id)
     values (#{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.Userrole">
+  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.AmUserRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -126,7 +126,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.practice.arch.common.domain.UserroleCriteria" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.practice.arch.common.domain.AmUserRoleCriteria" resultType="java.lang.Long">
     select count(*) from AM_USER_ROLE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -158,7 +158,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.Userrole">
+  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.AmUserRole">
     update AM_USER_ROLE
     <set>
       <if test="userId != null">
@@ -170,13 +170,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.Userrole">
+  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.AmUserRole">
     update AM_USER_ROLE
     set user_id = #{userId,jdbcType=INTEGER},
       role_id = #{roleId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.UserroleCriteria" resultMap="BaseResultMap">
+  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.AmUserRoleCriteria" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from AM_USER_ROLE
@@ -188,4 +188,32 @@
     </if>
     limit 1
   </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_USER_ROLE
+    (user_id, role_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_USER_ROLE (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'user_id'.toString() == column.value">
+          #{item.userId,jdbcType=INTEGER}
+        </if>
+        <if test="'role_id'.toString() == column.value">
+          #{item.roleId,jdbcType=INTEGER}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
 </mapper>

@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Role implements Serializable {
+public class AmUserRole implements Serializable {
     private Integer id;
 
-    private String name;
+    private Integer userId;
+
+    private Integer roleId;
 
     private static final long serialVersionUID = 1L;
 
@@ -15,7 +17,7 @@ public class Role implements Serializable {
         return id;
     }
 
-    public Role withId(Integer id) {
+    public AmUserRole withId(Integer id) {
         this.setId(id);
         return this;
     }
@@ -24,17 +26,30 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public Role withName(String name) {
-        this.setName(name);
+    public AmUserRole withUserId(Integer userId) {
+        this.setUserId(userId);
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public AmUserRole withRoleId(Integer roleId) {
+        this.setRoleId(roleId);
+        return this;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -44,7 +59,8 @@ public class Role implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
+        sb.append(", userId=").append(userId);
+        sb.append(", roleId=").append(roleId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -61,9 +77,10 @@ public class Role implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Role other = (Role) that;
+        AmUserRole other = (AmUserRole) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()));
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()));
     }
 
     @Override
@@ -71,13 +88,15 @@ public class Role implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
         return result;
     }
 
     public enum Column {
         id("id", "id", "INTEGER", false),
-        name("name", "name", "VARCHAR", false);
+        userId("user_id", "userId", "INTEGER", false),
+        roleId("role_id", "roleId", "INTEGER", false);
 
         private static final String BEGINNING_DELIMITER = "`";
 

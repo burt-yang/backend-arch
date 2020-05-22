@@ -8,8 +8,8 @@
 package com.practice.arch.commonarch.service.impl;
 
 import com.google.common.collect.Lists;
-import com.practice.arch.common.domain.User;
-import com.practice.arch.common.repository.UserRepository;
+import com.practice.arch.common.domain.AmUser;
+import com.practice.arch.common.repository.AmUserRepository;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.domain.po.RolePO;
 import com.practice.arch.commonarch.domain.po.UserPO;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     TokenService tokenService;
 
     @Autowired
-    UserRepository userRepository;
+    AmUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         String accessToken = tokenService.createAccessToken(refreshToken, user);
         user.setAccessToken(accessToken);
         user.setRefreshToken(refreshToken);
-        final User record = new User();
+        final AmUser record = new AmUser();
         record.setEmail("abc@163.com");
         record.setPassword("$2a$10$kvC0enKET/HfqX0RnbGFjOMDoLLaN5D0HepaaE3xCSpsQmCJobQvW");
         userRepository.insert(record);

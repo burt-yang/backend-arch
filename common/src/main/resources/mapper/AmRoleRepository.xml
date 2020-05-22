@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.arch.common.repository.RoleRepository">
-  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.Role">
+<mapper namespace="com.practice.arch.common.repository.AmRoleRepository">
+  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.AmRole">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
@@ -66,7 +66,7 @@
   <sql id="Base_Column_List">
     id, name
   </sql>
-  <select id="selectByExample" parameterType="com.practice.arch.common.domain.RoleCriteria" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.practice.arch.common.domain.AmRoleCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -90,20 +90,20 @@
     delete from AM_ROLE
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.RoleCriteria">
+  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.AmRoleCriteria">
     delete from AM_ROLE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.practice.arch.common.domain.Role">
+  <insert id="insert" parameterType="com.practice.arch.common.domain.AmRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into AM_ROLE (name)
     values (#{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.Role">
+  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.AmRole">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -119,7 +119,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.practice.arch.common.domain.RoleCriteria" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.practice.arch.common.domain.AmRoleCriteria" resultType="java.lang.Long">
     select count(*) from AM_ROLE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -147,7 +147,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.Role">
+  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.AmRole">
     update AM_ROLE
     <set>
       <if test="name != null">
@@ -156,12 +156,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.Role">
+  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.AmRole">
     update AM_ROLE
     set name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.RoleCriteria" resultMap="BaseResultMap">
+  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.AmRoleCriteria" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from AM_ROLE
@@ -173,4 +173,29 @@
     </if>
     limit 1
   </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_ROLE
+    (name)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.name,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_ROLE (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'name'.toString() == column.value">
+          #{item.name,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
 </mapper>

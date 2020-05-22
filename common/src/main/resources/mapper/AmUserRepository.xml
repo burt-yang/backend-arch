@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.practice.arch.common.repository.UserRepository">
-  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.User">
+<mapper namespace="com.practice.arch.common.repository.AmUserRepository">
+  <resultMap id="BaseResultMap" type="com.practice.arch.common.domain.AmUser">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -67,7 +67,7 @@
   <sql id="Base_Column_List">
     id, email, password
   </sql>
-  <select id="selectByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.practice.arch.common.domain.AmUserCriteria" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -91,20 +91,20 @@
     delete from AM_USER
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.UserCriteria">
+  <delete id="deleteByExample" parameterType="com.practice.arch.common.domain.AmUserCriteria">
     delete from AM_USER
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.practice.arch.common.domain.User">
+  <insert id="insert" parameterType="com.practice.arch.common.domain.AmUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into AM_USER (email, password)
     values (#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.User">
+  <insert id="insertSelective" parameterType="com.practice.arch.common.domain.AmUser">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -126,7 +126,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.practice.arch.common.domain.AmUserCriteria" resultType="java.lang.Long">
     select count(*) from AM_USER
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -158,7 +158,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.practice.arch.common.domain.AmUser">
     update AM_USER
     <set>
       <if test="email != null">
@@ -170,13 +170,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.User">
+  <update id="updateByPrimaryKey" parameterType="com.practice.arch.common.domain.AmUser">
     update AM_USER
     set email = #{email,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.UserCriteria" resultMap="BaseResultMap">
+  <select id="selectOneByExample" parameterType="com.practice.arch.common.domain.AmUserCriteria" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from AM_USER
@@ -188,4 +188,32 @@
     </if>
     limit 1
   </select>
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_USER
+    (email, password)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.email,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="batchInsertSelective" keyColumn="id" keyProperty="list.id" parameterType="map" useGeneratedKeys="true">
+    insert into AM_USER (
+    <foreach collection="selective" item="column" separator=",">
+      ${column.escapedColumnName}
+    </foreach>
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (
+      <foreach collection="selective" item="column" separator=",">
+        <if test="'email'.toString() == column.value">
+          #{item.email,jdbcType=VARCHAR}
+        </if>
+        <if test="'password'.toString() == column.value">
+          #{item.password,jdbcType=VARCHAR}
+        </if>
+      </foreach>
+      )
+    </foreach>
+  </insert>
 </mapper>

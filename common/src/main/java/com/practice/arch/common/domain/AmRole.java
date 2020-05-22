@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class User implements Serializable {
+public class AmRole implements Serializable {
     private Integer id;
 
-    private String email;
-
-    private String password;
+    private String name;
 
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +15,7 @@ public class User implements Serializable {
         return id;
     }
 
-    public User withId(Integer id) {
+    public AmRole withId(Integer id) {
         this.setId(id);
         return this;
     }
@@ -26,30 +24,17 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public User withEmail(String email) {
-        this.setEmail(email);
+    public AmRole withName(String name) {
+        this.setName(name);
         return this;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User withPassword(String password) {
-        this.setPassword(password);
-        return this;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -59,8 +44,7 @@ public class User implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", email=").append(email);
-        sb.append(", password=").append(password);
+        sb.append(", name=").append(name);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
@@ -77,10 +61,9 @@ public class User implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        User other = (User) that;
+        AmRole other = (AmRole) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
-            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()));
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()));
     }
 
     @Override
@@ -88,15 +71,13 @@ public class User implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         return result;
     }
 
     public enum Column {
         id("id", "id", "INTEGER", false),
-        email("email", "email", "VARCHAR", false),
-        password("password", "password", "VARCHAR", false);
+        name("name", "name", "VARCHAR", false);
 
         private static final String BEGINNING_DELIMITER = "`";
 

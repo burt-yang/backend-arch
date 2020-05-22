@@ -3,14 +3,14 @@ package com.practice.arch.common.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserroleCriteria {
+public class AmUserRoleCriteria {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public UserroleCriteria() {
+    public AmUserRoleCriteria() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
