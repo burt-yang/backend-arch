@@ -7,8 +7,10 @@
 
 package com.practice.arch.commonarch.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import com.practice.arch.common.domain.AmUser;
+import com.practice.arch.common.domain.AmUserCriteria;
 import com.practice.arch.common.repository.AmUserRepository;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.domain.po.RolePO;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * Created by byang059 on 5/12/20
@@ -66,10 +69,6 @@ public class UserServiceImpl implements UserService {
         String accessToken = tokenService.createAccessToken(refreshToken, user);
         user.setAccessToken(accessToken);
         user.setRefreshToken(refreshToken);
-        final AmUser record = new AmUser();
-        record.setEmail("abc@163.com");
-        record.setPassword("$2a$10$kvC0enKET/HfqX0RnbGFjOMDoLLaN5D0HepaaE3xCSpsQmCJobQvW");
-        userRepository.insert(record);
         return user;
     }
 }

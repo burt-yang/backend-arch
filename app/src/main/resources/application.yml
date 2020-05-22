@@ -11,3 +11,6 @@ spring:
 logging:
   level:
     root: info
+    com.practice.arch.common.repository: debug
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
