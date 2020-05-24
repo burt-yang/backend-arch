@@ -19,6 +19,7 @@ import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "userInfo")
     public UserDTO login(@NotEmpty String userName, @NotEmpty String password) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, password);
         Authentication authenticate = authenticationManager.authenticate(authentication);

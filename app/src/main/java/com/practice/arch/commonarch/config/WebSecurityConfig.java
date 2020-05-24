@@ -18,6 +18,7 @@ import io.jsonwebtoken.security.Keys;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,6 +41,7 @@ import java.security.Key;
  * Created by byang059 on 5/12/20
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -62,16 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).authenticationProvider(jwtAuthenticationProvider());
     }
 
-    @Bean
-    public JwtAuthenticationProvider jwtAuthenticationProvider() {
-        return new JwtAuthenticationProvider();
-    }
-
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
-        return new TokenAuthenticationFilter();
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
@@ -81,6 +73,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public JwtAuthenticationProvider jwtAuthenticationProvider() {
+        return new JwtAuthenticationProvider();
+    }
+
+    @Bean
+    public TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
+        return new TokenAuthenticationFilter();
     }
 
     /**

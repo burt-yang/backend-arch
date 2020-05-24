@@ -14,6 +14,8 @@ import com.practice.arch.commonarch.exception.TokenInvalidException;
 import com.practice.arch.commonarch.exception.TokenNotFoundException;
 import com.practice.arch.commonarch.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,7 +68,7 @@ import static com.practice.arch.commonarch.enums.ResultCode.USER_NOT_FOUND;
  */
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler, CacheErrorHandler {
 
     /**
      * handle application e
@@ -148,6 +150,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         log.error(e.getMessage(), e);
         sendResponse(response, ACCESS_DENY);
+    }
+
+    @Override
+    public void handleCacheGetError(RuntimeException e, Cache cache, Object key) {
+        log.error(e.getMessage(), e);
+    }
+
+    @Override
+    public void handleCachePutError(RuntimeException e, Cache cache, Object key, Object value) {
+        log.error(e.getMessage(), e);
+    }
+
+    @Override
+    public void handleCacheEvictError(RuntimeException e, Cache cache, Object key) {
+        log.error(e.getMessage(), e);
+    }
+
+    @Override
+    public void handleCacheClearError(RuntimeException e, Cache cache) {
+        log.error(e.getMessage(), e);
     }
 
     private ResultCode handleAuthenticationException(AuthenticationException e) {
