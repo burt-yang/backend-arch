@@ -27,6 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
@@ -61,7 +62,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(value = "userInfo")
+//    @Cacheable(value = "userInfo")
+    @Transactional(readOnly = true)
     public UserDTO login(@NotEmpty String userName, @NotEmpty String password) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, password);
         Authentication authenticate = authenticationManager.authenticate(authentication);

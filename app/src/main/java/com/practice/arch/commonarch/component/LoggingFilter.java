@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,12 +34,14 @@ import java.util.Enumeration;
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter implements Ordered {
 
-    @Around("execution(* com.practice.arch.commonarch.controller..*(..)) || execution(* com.practice.arch.commonarch.service..*(..)) || execution(* com.practice.arch.commonarch.repository..*(..))")
+    @Autowired
+    RedisRateLimiter redisRateLimiter;
+
+    @Around("execution(* com.practice.arch.commonarch.controller..*(..)) || execution(* com.practice.arch.commonarch.service..*(..))")
     @ResponseBody
     public Object logMethodArguments(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Method method = signature.getMethod();
+        Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
         String className = method.getDeclaringClass().getSimpleName();
         String methodName = method.getName();
         if (args != null && args.length > 0) {

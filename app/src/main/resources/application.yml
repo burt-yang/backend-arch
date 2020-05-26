@@ -27,3 +27,12 @@ logging:
     com.practice.arch.common.repository: debug
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: true

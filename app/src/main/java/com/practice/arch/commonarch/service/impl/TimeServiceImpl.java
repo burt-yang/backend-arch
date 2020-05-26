@@ -19,8 +19,9 @@ import org.springframework.stereotype.Service;
 public class TimeServiceImpl implements TimeService {
     @Override
     public Long getTime(String a, int b) {
-        get();
-        throw new AppException(ResultCode.USER_NOT_FOUND);
+//        get();
+//        throw new AppException(ResultCode.USER_NOT_FOUND);
+        return 1l;
     }
 
     private boolean get(){

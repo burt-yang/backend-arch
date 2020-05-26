@@ -14,6 +14,7 @@ import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import static org.springframework.http.HttpStatus.BAD_GATEWAY;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -48,7 +49,8 @@ public enum ResultCode {
 
     USER_NOT_FOUND(4400, NOT_FOUND, "User not exist"),
 
-    SERVER_ERROR(5000, INTERNAL_SERVER_ERROR, "internal error, please contact system admin");
+    SERVER_ERROR(5000, INTERNAL_SERVER_ERROR, "internal error, please contact system admin"),
+    RATE_LIMITER_ERROR(5200, BAD_GATEWAY, "request is too much, as server is busy, please try later");
 
     private Integer code;
     private HttpStatus httpStatus;

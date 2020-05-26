@@ -7,15 +7,28 @@
 
 package com.practice.arch.commonarch.config;
 
+import com.practice.arch.commonarch.component.RateLimiterInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Created by byang059 on 5/19/20
  */
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
+
+    @Autowired
+    RateLimiterInterceptor rateLimiterInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rateLimiterInterceptor);
+    }
+
     @Bean
     public MethodValidationPostProcessor getMethodValidationPostProcessor() {
         return new MethodValidationPostProcessor();

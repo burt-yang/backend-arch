@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class Config {
 
-    public static List<String> NOT_RESPONSE_FORMAT_URLS = Lists.newArrayList("/swagger", "/v2/api-docs", "/error");
-    public static List<String> NOT_SECURITY_URLS = Lists.newArrayList("/login");
+    public static List<String> SKIP_FORMAT_URLS = Lists.newArrayList("/swagger", "/v2/api-docs", "/error");
+    public static List<String> PERMIT_URLS = Lists.newArrayList("/login");
 
 }

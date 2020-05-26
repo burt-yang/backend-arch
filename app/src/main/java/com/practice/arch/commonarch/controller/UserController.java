@@ -7,6 +7,7 @@
 
 package com.practice.arch.commonarch.controller;
 
+import com.practice.arch.commonarch.component.RateLimiter;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.service.TimeService;
 import com.practice.arch.commonarch.service.UserService;
@@ -40,11 +41,12 @@ public class UserController {
         return userService.login(userName, password);
     }
 
+    @RateLimiter(replenishRate = 1, burstCapacity = 1)
     @PostMapping("/time")
     public boolean getTime(@RequestBody Map<String, Object> param) {
         log.info(param.toString());
         timeService.getTime("ab", 2);
-        get();
+//        get();
         return false;
     }
 

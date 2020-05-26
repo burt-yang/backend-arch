@@ -33,7 +33,7 @@ public class ResponseBodyFormatter implements ResponseBodyAdvice<Object> {
         if (body instanceof ResponseWrapper) {
             return body;
         }
-        if (Config.NOT_RESPONSE_FORMAT_URLS.contains(requestPath)) {
+        if (Config.SKIP_FORMAT_URLS.contains(requestPath)) {
             return body;
         }
         return ResponseWrapper.success(body);

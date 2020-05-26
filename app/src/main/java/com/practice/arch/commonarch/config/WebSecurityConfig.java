@@ -10,6 +10,7 @@ package com.practice.arch.commonarch.config;
 import com.google.common.collect.ImmutableList;
 import com.practice.arch.commonarch.component.GlobalExceptionHandler;
 import com.practice.arch.commonarch.component.JwtAuthenticationProvider;
+import com.practice.arch.commonarch.component.RedisRateLimiter;
 import com.practice.arch.commonarch.component.TokenAuthenticationFilter;
 import com.practice.arch.commonarch.constants.Config;
 import com.practice.arch.commonarch.service.TokenService;
@@ -17,6 +18,7 @@ import com.practice.arch.commonarch.service.UserService;
 import io.jsonwebtoken.security.Keys;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -25,9 +27,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -53,15 +57,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    AuthenticationEntryPoint entryPoint;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors()
-                .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(Config.NOT_SECURITY_URLS.toArray(new String[] {})).permitAll()
-                .anyRequest().authenticated()
-                .and().exceptionHandling().authenticationEntryPoint(exceptionHandler).accessDeniedHandler(exceptionHandler)
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).authenticationProvider(jwtAuthenticationProvider());
+        //禁用跨域
+        http.csrf().disable().cors();
+
+        //url权限限制
+        http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+                .antMatchers(Config.PERMIT_URLS.toArray(new String[] {})).permitAll()
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+                .anyRequest().authenticated();
+        //异常处理
+        http.exceptionHandling().authenticationEntryPoint(exceptionHandler).accessDeniedHandler(exceptionHandler);
+        //禁用session
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //添加jwt filter
+        http.addFilterBefore(new TokenAuthenticationFilter(entryPoint, authenticationManagerBean()), UsernamePasswordAuthenticationFilter.class).authenticationProvider(jwtAuthenticationProvider());
     }
 
     @Override
@@ -78,11 +92,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public JwtAuthenticationProvider jwtAuthenticationProvider() {
         return new JwtAuthenticationProvider();
-    }
-
-    @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter() throws Exception {
-        return new TokenAuthenticationFilter();
     }
 
     /**

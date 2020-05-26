@@ -7,6 +7,8 @@
 
 package com.practice.arch.commonarch.component;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,11 +31,16 @@ import java.io.IOException;
 /**
  * Created by byang059 on 5/17/20
  */
+@Slf4j
+@Setter
 public class TokenAuthenticationFilter extends GenericFilterBean {
-    @Autowired
-    private AuthenticationEntryPoint entryPoint;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    AuthenticationEntryPoint entryPoint;
+    AuthenticationManager authenticationManager;
+
+    public TokenAuthenticationFilter(AuthenticationEntryPoint entryPoint, AuthenticationManager authenticationManager) {
+        this.entryPoint = entryPoint;
+        this.authenticationManager = authenticationManager;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

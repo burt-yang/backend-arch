@@ -37,12 +37,12 @@ public class TokenServiceImpl implements TokenService {
     public String createAccessToken(String refreshToken) {
         UserDTO userVo = decodeAndVerify(refreshToken);
         UserPO userPo = (UserPO) userService.loadUserByUsername(userVo.getEmail());
-        return createTokenByUserVo(UserDTO.from(userPo), 1800);
+        return createTokenByUserVo(UserDTO.from(userPo), 180000);
     }
 
     @Override
     public String createAccessToken(String refreshToken, UserDTO user) {
-        return createTokenByUserVo(user, 1800);
+        return createTokenByUserVo(user, 180000);
     }
 
     @Override
