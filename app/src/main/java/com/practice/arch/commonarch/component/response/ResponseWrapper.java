@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.response;
 
 import com.practice.arch.commonarch.enums.ResultCode;
 import lombok.Getter;

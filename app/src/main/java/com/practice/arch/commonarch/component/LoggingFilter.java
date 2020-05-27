@@ -7,7 +7,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,9 +32,6 @@ import java.util.Enumeration;
 @Component
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter implements Ordered {
-
-    @Autowired
-    RedisRateLimiter redisRateLimiter;
 
     @Around("execution(* com.practice.arch.commonarch.controller..*(..)) || execution(* com.practice.arch.commonarch.service..*(..))")
     @ResponseBody

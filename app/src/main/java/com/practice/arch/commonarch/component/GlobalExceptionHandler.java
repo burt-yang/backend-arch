@@ -7,6 +7,7 @@
 
 package com.practice.arch.commonarch.component;
 
+import com.practice.arch.commonarch.component.response.ResponseWrapper;
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
 import com.practice.arch.commonarch.exception.TokenExpiredException;
@@ -47,7 +48,6 @@ import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.util.List;
 
-import static com.practice.arch.commonarch.enums.ResultCode.*;
 import static com.practice.arch.commonarch.enums.ResultCode.ACCESS_DENY;
 import static com.practice.arch.commonarch.enums.ResultCode.ACCOUNT_Disabled;
 import static com.practice.arch.commonarch.enums.ResultCode.ACCOUNT_EXPIRED;

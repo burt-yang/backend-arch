@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.jwt;
 
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.exception.TokenNotFoundException;

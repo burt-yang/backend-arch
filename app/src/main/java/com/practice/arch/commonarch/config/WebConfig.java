@@ -7,7 +7,7 @@
 
 package com.practice.arch.commonarch.config;
 
-import com.practice.arch.commonarch.component.RateLimiterInterceptor;
+import com.practice.arch.commonarch.component.redis.RateLimiterInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

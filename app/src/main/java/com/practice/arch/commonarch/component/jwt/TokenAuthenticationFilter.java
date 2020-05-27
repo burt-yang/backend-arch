@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.jwt;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

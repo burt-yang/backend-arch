@@ -1,4 +1,4 @@
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.redis;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

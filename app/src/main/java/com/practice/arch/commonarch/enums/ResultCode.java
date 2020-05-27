@@ -7,7 +7,7 @@
 
 package com.practice.arch.commonarch.enums;
 
-import com.practice.arch.commonarch.component.ResponseWrapper;
+import com.practice.arch.commonarch.component.response.ResponseWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

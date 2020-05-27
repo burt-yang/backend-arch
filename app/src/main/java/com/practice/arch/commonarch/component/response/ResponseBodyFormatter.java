@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.response;
 
 import com.practice.arch.commonarch.constants.Config;
 import org.springframework.core.MethodParameter;

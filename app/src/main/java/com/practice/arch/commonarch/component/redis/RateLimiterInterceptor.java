@@ -5,9 +5,8 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component;
+package com.practice.arch.commonarch.component.redis;
 
-import com.practice.arch.commonarch.domain.dto.RateLimiterDTO;
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
