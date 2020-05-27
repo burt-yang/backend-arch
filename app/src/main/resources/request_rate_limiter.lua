@@ -18,7 +18,7 @@ local ttl = math.floor(fill_time*2)
 -- redis.log(redis.LOG_WARNING, "filltime " .. fill_time)
 -- redis.log(redis.LOG_WARNING, "ttl " .. ttl)
 
--- 获取桶中剩余的令牌，如果桶是空的，就将他填满
+-- 获取桶中剩余的令牌，如果桶是空的，就将他填满，过期周期为2倍的key时效内，没有找到，就是满的
 local last_tokens = tonumber(redis.call("get", tokens_key))
 if last_tokens == nil then
   last_tokens = capacity

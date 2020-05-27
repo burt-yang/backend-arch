@@ -7,6 +7,7 @@
 
 package com.practice.arch.commonarch.component;
 
+import com.practice.arch.commonarch.domain.dto.RateLimiterDTO;
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,26 @@ public class RateLimiterInterceptor extends HandlerInterceptorAdapter {
         if (methodAnnotation == null) {
             return true;
         }
-        boolean allowed = redisRateLimiter.isAllowed(request.getRequestURI(), methodAnnotation.replenishRate(), methodAnnotation.burstCapacity(), methodAnnotation.requestedTokens());
-        if (!allowed) {
+        int replenishRate = methodAnnotation.replenishRate();
+        int burstCapacity = methodAnnotation.burstCapacity();
+        int requestedTokens = methodAnnotation.requestedTokens();
+        if (replenishRate == 0 || burstCapacity == 0 || requestedTokens == 0) {
+            return true;
+        }
+        RateLimiterDTO limiterDTO = redisRateLimiter.isAllowed(request.getRequestURI(), replenishRate, burstCapacity, requestedTokens);
+        setResponseHeaders(response, limiterDTO.getTokensLeft(), replenishRate, burstCapacity, requestedTokens);
+        if (!limiterDTO.isAllowed()) {
             throw new AppException(ResultCode.RATE_LIMITER_ERROR);
         }
         return true;
+    }
+
+    public void setResponseHeaders(HttpServletResponse response, Long tokensLeft, int replenishRate,
+                                   int burstCapacity,
+                                   int requestedTokens) {
+        response.setHeader("X-RateLimit-Remaining", String.valueOf(tokensLeft));
+        response.setHeader("X-RateLimit-Replenish-Rate", String.valueOf(replenishRate));
+        response.setHeader("X-RateLimit-Burst-Capacity", String.valueOf(burstCapacity));
+        response.setHeader("X-RateLimit-Requested-Tokens", String.valueOf(requestedTokens));
     }
 }
