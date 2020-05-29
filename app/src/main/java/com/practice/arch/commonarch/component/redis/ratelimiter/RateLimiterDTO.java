@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component.redis;
+package com.practice.arch.commonarch.component.redis.ratelimiter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

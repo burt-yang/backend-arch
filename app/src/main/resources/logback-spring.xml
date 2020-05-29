@@ -8,7 +8,7 @@
     <!--配置文件读取自定义字段-->
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
     <!--日志存放路径-->
-    <property name="LOG_DIR" value="./logs"/>
+    <property name="LOG_DIR" value="var/app/logs"/>
     <!--最大保存天数-->
     <property name="MAX_HISTORY" value="30"/>
     <!--单个日志文件最大大小-->

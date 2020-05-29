@@ -1,4 +1,4 @@
-package com.practice.arch.commonarch.component.redis;
+package com.practice.arch.commonarch.component.redis.ratelimiter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimiter {
-    int replenishRate();
+    int replenishRate() default 2;
 
-    int burstCapacity();
+    int burstCapacity() default 200;
 
     int requestedTokens() default 1;
 }

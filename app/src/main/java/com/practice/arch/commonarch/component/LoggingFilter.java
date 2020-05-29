@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -34,7 +33,6 @@ import java.util.Enumeration;
 public class LoggingFilter extends OncePerRequestFilter implements Ordered {
 
     @Around("execution(* com.practice.arch.commonarch.controller..*(..)) || execution(* com.practice.arch.commonarch.service..*(..))")
-    @ResponseBody
     public Object logMethodArguments(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();

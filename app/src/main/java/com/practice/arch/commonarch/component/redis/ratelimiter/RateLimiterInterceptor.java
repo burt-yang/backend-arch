@@ -5,7 +5,7 @@
  * disclosure restricted by GSA ADP Schedule Contract with PwC Corp.
  */
 
-package com.practice.arch.commonarch.component.redis;
+package com.practice.arch.commonarch.component.redis.ratelimiter;
 
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
@@ -32,30 +32,22 @@ public class RateLimiterInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
-        RateLimiter methodAnnotation = handlerMethod.getMethodAnnotation(RateLimiter.class);
-        if (methodAnnotation == null) {
+        RateLimiter annotation = handlerMethod.getMethodAnnotation(RateLimiter.class);
+        if (annotation == null) {
             return true;
         }
-        int replenishRate = methodAnnotation.replenishRate();
-        int burstCapacity = methodAnnotation.burstCapacity();
-        int requestedTokens = methodAnnotation.requestedTokens();
-        if (replenishRate == 0 || burstCapacity == 0 || requestedTokens == 0) {
-            return true;
-        }
-        RateLimiterDTO limiterDTO = redisRateLimiter.isAllowed(request.getRequestURI(), replenishRate, burstCapacity, requestedTokens);
-        setResponseHeaders(response, limiterDTO.getTokensLeft(), replenishRate, burstCapacity, requestedTokens);
+        RateLimiterDTO limiterDTO = redisRateLimiter.isAllowed(request.getRequestURI(), annotation.replenishRate(), annotation.burstCapacity(), annotation.requestedTokens());
+        setResponseHeaders(response, limiterDTO.getTokensLeft(), annotation);
         if (!limiterDTO.isAllowed()) {
             throw new AppException(ResultCode.RATE_LIMITER_ERROR);
         }
         return true;
     }
 
-    public void setResponseHeaders(HttpServletResponse response, Long tokensLeft, int replenishRate,
-                                   int burstCapacity,
-                                   int requestedTokens) {
+    public void setResponseHeaders(HttpServletResponse response, Long tokensLeft, RateLimiter annotation) {
         response.setHeader("X-RateLimit-Remaining", String.valueOf(tokensLeft));
-        response.setHeader("X-RateLimit-Replenish-Rate", String.valueOf(replenishRate));
-        response.setHeader("X-RateLimit-Burst-Capacity", String.valueOf(burstCapacity));
-        response.setHeader("X-RateLimit-Requested-Tokens", String.valueOf(requestedTokens));
+        response.setHeader("X-RateLimit-Replenish-Rate", String.valueOf(annotation.replenishRate()));
+        response.setHeader("X-RateLimit-Burst-Capacity", String.valueOf(annotation.burstCapacity()));
+        response.setHeader("X-RateLimit-Requested-Tokens", String.valueOf(annotation.requestedTokens()));
     }
 }

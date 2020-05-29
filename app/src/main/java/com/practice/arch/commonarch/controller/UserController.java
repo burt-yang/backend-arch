@@ -7,7 +7,7 @@
 
 package com.practice.arch.commonarch.controller;
 
-import com.practice.arch.commonarch.component.redis.RateLimiter;
+import com.practice.arch.commonarch.component.redis.ratelimiter.RateLimiter;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.service.TimeService;
 import com.practice.arch.commonarch.service.UserService;
