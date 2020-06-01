@@ -9,29 +9,13 @@ spring:
   application:
     name: application
   redis:
-    host: localhost
-    port: 6379
-    timeout: 1000
-    database: 0
-    #spring.redis.lettuce.pool.max-active=8
-    #spring.redis.lettuce.pool.max-idle=8
-    #spring.redis.lettuce.pool.max-wait=-1ms
-    #spring.redis.lettuce.pool.min-idle=0
-    #spring.redis.sentinel.master= # Name of Redis server.
-    #spring.redis.sentinel.nodes= # Comma-separated list of host:port pairs.
-    #spring.redis.timeout=100ms
+    redisson:
+      config: classpath:redisson.yml
 logging:
   level:
     root: info
     com.practice.arch.common.repository: debug
+    org.springframework.cache: trace
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-    enabled-by-default: true

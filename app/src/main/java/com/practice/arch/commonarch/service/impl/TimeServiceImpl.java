@@ -37,6 +37,11 @@ public class TimeServiceImpl implements TimeService {
         return 1l;
     }
 
+    @Override
+    public Long testAspectj() {
+        return getTime("a", 1);
+    }
+
     private boolean get() {
         try {
             Thread.sleep(1000);

@@ -46,6 +46,7 @@ public class UserController {
     public boolean getTime(@RequestBody Map<String, Object> param) {
         log.info(param.toString());
         timeService.getTime("ab", 2);
+//        timeService.testAspectj();
 //        get();
         return false;
     }

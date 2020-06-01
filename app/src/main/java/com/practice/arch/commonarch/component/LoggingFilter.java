@@ -104,8 +104,10 @@ public class LoggingFilter extends OncePerRequestFilter implements Ordered {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         final Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            sb.append(cookie.getName()).append(": ").append(cookie.getValue()).append(", ");
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                sb.append(cookie.getName()).append(": ").append(cookie.getValue()).append(", ");
+            }
         }
         appendSuffix(sb);
         return sb.toString();
