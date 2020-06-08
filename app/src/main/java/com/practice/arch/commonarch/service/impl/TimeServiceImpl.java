@@ -7,6 +7,8 @@
 
 package com.practice.arch.commonarch.service.impl;
 
+import com.practice.arch.common.domain.AmUser;
+import com.practice.arch.common.repository.AmUserRepository;
 import com.practice.arch.commonarch.component.redis.lock.DistributedLock;
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
@@ -16,8 +18,10 @@ import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
@@ -30,11 +34,17 @@ public class TimeServiceImpl implements TimeService {
     @Autowired
     RedissonClient redisson;
 
-    @DistributedLock(name = "mylock", waitTime = 1, leaseTime = 100)
+    @Autowired
+    AmUserRepository amUserRepository;
+
+    @DistributedLock(name = "mylock", waitTime = 0, leaseTime = 100)
+    @Cacheable(value = "getTime")
     @Override
     public Long getTime(String a, int b) {
         log.info("get lock");
-        return 1l;
+        final AmUser record = new AmUser().withEmail(UUID.randomUUID().toString()).withPassword("123");
+        amUserRepository.insert(record);
+        return Long.valueOf(record.getId());
     }
 
     @Override

@@ -41,7 +41,7 @@ public class UserController {
         return userService.login(userName, password);
     }
 
-    @RateLimiter(replenishRate = 1, burstCapacity = 100)
+//    @RateLimiter(replenishRate = 1, burstCapacity = 40)
     @PostMapping("/time")
     public boolean getTime(@RequestBody Map<String, Object> param) {
         log.info(param.toString());

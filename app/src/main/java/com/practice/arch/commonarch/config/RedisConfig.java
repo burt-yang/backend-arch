@@ -13,13 +13,20 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.practice.arch.commonarch.component.GlobalExceptionHandler;
+import org.redisson.api.RedissonClient;
+import org.redisson.spring.cache.CacheConfig;
+import org.redisson.spring.cache.RedissonSpringCacheManager;
+import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.CacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -35,7 +42,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scripting.support.ResourceScriptSource;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by byang059 on 5/24/20
@@ -44,47 +53,24 @@ import java.util.List;
 @Configuration
 public class RedisConfig extends CachingConfigurerSupport {
     @Autowired
-    RedisConnectionFactory redisConnectionFactory;
+    RedissonConnectionFactory redissonConnectionFactory;
 
     @Autowired
     GlobalExceptionHandler globalExceptionHandler;
 
+    @Autowired
+    RedissonClient redissonClient;
+
     @Bean
     @Override
     public CacheManager cacheManager() {
-        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(redisConnectionFactory);
-        //设置Redis缓存有效期为1天
-        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisSerializer())).entryTtl(Duration.ofDays(1));
-        return new RedisCacheManager(redisCacheWriter, redisCacheConfiguration);
+        Map<String, CacheConfig> config = new HashMap<>();
+        return new DefaultRedissonSpringCacheManager(redissonClient, config);
     }
 
     @Override
     public CacheErrorHandler errorHandler() {
         return globalExceptionHandler;
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisSerializer<Object> serializer = redisSerializer();
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(serializer);
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(serializer);
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-    }
-
-    @Bean
-    public RedisSerializer<Object> redisSerializer() {
-        Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.WRAPPER_ARRAY);
-        serializer.setObjectMapper(objectMapper);
-        return serializer;
     }
 
     @Bean
@@ -94,5 +80,18 @@ public class RedisConfig extends CachingConfigurerSupport {
                 new ClassPathResource("request_rate_limiter.lua")));
         redisScript.setResultType(List.class);
         return redisScript;
+    }
+
+    public static class DefaultRedissonSpringCacheManager extends RedissonSpringCacheManager {
+
+        public DefaultRedissonSpringCacheManager(RedissonClient redisson, Map<String, ? extends CacheConfig> config) {
+            super(redisson, config);
+        }
+
+        @Override
+        protected CacheConfig createDefaultConfig() {
+            //cache with ttl = 5 minutes and maxIdleTime = 12 minutes
+            return new CacheConfig(5 * 60 * 1000, 0);
+        }
     }
 }

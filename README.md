@@ -8,6 +8,8 @@
 8、mybatis-spring 一级缓存会失效，加上@transactional注解，一级缓存会生效，没有事物多次select会重新创建多次session。实际生产应该禁用第一第二级缓存，采用redis缓存
 9、redis实现数据缓存: 集成spring cache，@cacheable key生成策略 userInfo::SimpleKey [arg1,arg2]
 10、redis实现api限流：使用令牌桶、和lua脚本实现限流。
+    问题1：大量读请求涌入redis，导致redis压力大
+    解决1：采用内存限流外加+redis分布式限流方案，降低redis并发量
 11、redis分布式锁：使用redisson实现分布式锁，RedLock向不止一个redis master发送请求，超过半数以上算数
 12、redis和数据库不一致方案：先更新数据库，后删除缓存，延时2s（读的api响应时间），再次删除缓存
     问题1：被动性更新，可能会出现缓存失效，大量请求涌入数据库
@@ -21,6 +23,8 @@
     (此时如果拿db是b值，但是redis没有值)
     A_update_redis
 13、数据排行榜、点赞好友关系储存、队列、延时操作
+14、抽象注解缓存获取类，实现在反射时获取注解信息，运行时只需从内存获取，提高效率
 future:
 zookeeper
 dubbo
+message queue

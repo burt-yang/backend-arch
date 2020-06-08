@@ -9,6 +9,7 @@ package com.practice.arch.commonarch.service.impl;
 
 import com.practice.arch.commonarch.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,18 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class RedisServiceImpl implements RedisService {
+    @Lazy
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public void set(String key, Object value, long time) {
         redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void setIfAbsent(String key, Object value, long time) {
+        redisTemplate.opsForValue().setIfAbsent(key, value, time, TimeUnit.SECONDS);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public Long del(List<String> keys) {
+    public Boolean del(List<String> keys) {
         return redisTemplate.delete(keys);
     }
 

@@ -20,6 +20,8 @@ public interface RedisService {
      */
     void set(String key, Object value, long time);
 
+    void setIfAbsent(String key, Object value, long time);
+
     /**
      * 保存属性
      */
@@ -38,7 +40,7 @@ public interface RedisService {
     /**
      * 批量删除属性
      */
-    Long del(List<String> keys);
+    Boolean del(List<String> keys);
 
     /**
      * 设置过期时间

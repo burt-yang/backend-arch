@@ -55,7 +55,7 @@
 
     <!--<logger name="com.pwc" level="debug"/>-->
 
-    <root level="DEBUG">
+    <root level="info">
         <appender-ref ref="file"/>
         <appender-ref ref="console"/>
         <appender-ref ref="error"/>

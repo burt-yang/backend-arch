@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 public class RedisRateLimiter {
     @Autowired
-    RedisTemplate<String, Object> redisTemplate;
+    RedisTemplate<Object, Object> redisTemplate;
 
     @Autowired
     RedisScript<List> redisScript;
@@ -35,7 +35,7 @@ public class RedisRateLimiter {
      * @return
      */
     public RateLimiterDTO isAllowed(String id, int replenishRate, int burstCapacity, int requestedTokens) {
-        List<String> keys = getKeys(id);
+        List<Object> keys = getKeys(id);
         // The arguments to the LUA script. time() returns unixtime in seconds.
         List<Long> result = redisTemplate.execute(redisScript, keys, replenishRate,
                 burstCapacity, Instant.now().getEpochSecond(),
@@ -43,7 +43,7 @@ public class RedisRateLimiter {
         return new RateLimiterDTO(result.get(0) == 1, result.get(1));
     }
 
-    static List<String> getKeys(String id) {
+    static List<Object> getKeys(String id) {
         // use `{}` around keys to use Redis Key hash tags
         // this allows for using redis cluster
 
