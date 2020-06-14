@@ -8,6 +8,7 @@
 package com.practice.arch.commonarch.component.redis.ratelimiter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ public class RedisRateLimiter {
     RedisTemplate<Object, Object> redisTemplate;
 
     @Autowired
+    @Qualifier("requestRateLimiter")
     RedisScript<List> redisScript;
 
     /**

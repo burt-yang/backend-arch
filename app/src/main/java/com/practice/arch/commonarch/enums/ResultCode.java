@@ -48,7 +48,7 @@ public enum ResultCode {
     ACCESS_DENY(4300, FORBIDDEN, "Access deny"),
 
     USER_NOT_FOUND(4400, NOT_FOUND, "User not exist"),
-    LIMITED_DISTRIBUTED_LOCK(4401, NOT_FOUND, "User not exist"),
+    LIMITED_DISTRIBUTED_LOCK(4401, NOT_FOUND, "Operation resource is limited, please try again"),
 
     SERVER_ERROR(5000, INTERNAL_SERVER_ERROR, "internal error, please contact system admin"),
     RATE_LIMITER_ERROR(5200, BAD_GATEWAY, "request is too much, as server is busy, please try later");

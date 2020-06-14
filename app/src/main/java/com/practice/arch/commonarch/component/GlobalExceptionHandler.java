@@ -138,7 +138,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
+        String requestURI = request.getRequestURI();
         log.error(e.getMessage(), e);
+        log.error("Authentication failure for Uri: {}", requestURI);
         ResultCode resultCode = handleAuthenticationException(e);
         sendResponse(response, resultCode);
     }
@@ -148,7 +150,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
+        String requestURI = request.getRequestURI();
         log.error(e.getMessage(), e);
+        log.error("Access deny for Uri: {}", requestURI);
         sendResponse(response, ACCESS_DENY);
     }
 

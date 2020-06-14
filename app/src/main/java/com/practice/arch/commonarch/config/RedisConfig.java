@@ -15,11 +15,13 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.practice.arch.commonarch.component.GlobalExceptionHandler;
 import org.redisson.api.RedissonClient;
 import org.redisson.spring.cache.CacheConfig;
+import org.redisson.spring.cache.RedissonCache;
 import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -73,12 +75,21 @@ public class RedisConfig extends CachingConfigurerSupport {
         return globalExceptionHandler;
     }
 
-    @Bean
-    public RedisScript<List> rateLimiterScript() {
+    @Bean("requestRateLimiter")
+    public RedisScript<List> requestRateLimiter() {
         DefaultRedisScript<List> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(
                 new ClassPathResource("request_rate_limiter.lua")));
         redisScript.setResultType(List.class);
+        return redisScript;
+    }
+
+    @Bean("readCountRateLimiter")
+    public RedisScript<String> readCountRateLimiter() {
+        DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(
+                new ClassPathResource("read_count_rate_limiter.lua")));
+        redisScript.setResultType(String.class);
         return redisScript;
     }
 
@@ -90,8 +101,13 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         @Override
         protected CacheConfig createDefaultConfig() {
-            //cache with ttl = 5 minutes and maxIdleTime = 12 minutes
             return new CacheConfig(5 * 60 * 1000, 0);
+        }
+
+        @Override
+        public Cache getCache(String name) {
+            RedissonCache cache = (RedissonCache) super.getCache(name);
+            return cache;
         }
     }
 }

@@ -24,6 +24,15 @@
     A_update_redis
 13、数据排行榜、点赞好友关系储存、队列、延时操作
 14、抽象注解缓存获取类，实现在反射时获取注解信息，运行时只需从内存获取，提高效率
+15、redis持久化，持久化会影响redis的性能，能不开启就不开启，两种方式：
+    1、rdb 通过在redis.config中配置save 900 1生效，多个save配置同时生效，save方法会堵塞客户端的操作，生产环境不采用，采用最多的是bgsave，bgsave会fork子进程来备份
+    2、aof append only file
+
+16、redis击穿、雪崩
+17、幂等
+
+
+
 future:
 zookeeper
 dubbo
