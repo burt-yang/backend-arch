@@ -37,7 +37,7 @@ public class TimeServiceImpl implements TimeService {
     @Autowired
     AmUserRepository amUserRepository;
 
-    @DistributedLock(name = "mylock", waitTime = 0, leaseTime = 100)
+//    @DistributedLock(name = "mylock", waitTime = 0, leaseTime = 100)
     @Cacheable(value = "getTime")
     @Override
     public Long getTime(String a, int b) {
@@ -54,7 +54,7 @@ public class TimeServiceImpl implements TimeService {
 
     private boolean get() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

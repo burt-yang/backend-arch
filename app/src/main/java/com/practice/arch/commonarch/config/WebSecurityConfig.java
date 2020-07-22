@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.practice.arch.commonarch.component.GlobalExceptionHandler;
 import com.practice.arch.commonarch.component.jwt.JwtAuthenticationProvider;
 import com.practice.arch.commonarch.component.jwt.TokenAuthenticationFilter;
+import com.practice.arch.commonarch.component.redis.ratelimiter.RateLimiterInterceptor;
 import com.practice.arch.commonarch.constants.Config;
 import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
@@ -34,6 +35,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +47,7 @@ import java.security.Key;
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     @Autowired
     UserService userService;
@@ -53,10 +56,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     GlobalExceptionHandler exceptionHandler;
 
     @Autowired
+    AuthenticationEntryPoint entryPoint;
+
+    @Autowired
     TokenService tokenService;
 
     @Autowired
-    AuthenticationEntryPoint entryPoint;
+    RateLimiterInterceptor rateLimiterInterceptor;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -79,6 +85,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(rateLimiterInterceptor);
     }
 
     @Bean

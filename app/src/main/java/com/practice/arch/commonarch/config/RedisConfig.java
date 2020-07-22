@@ -25,7 +25,9 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.BeanFactoryCacheOperationSourceAdvisor;
 import org.springframework.cache.interceptor.CacheErrorHandler;
+import org.springframework.cache.interceptor.CacheInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -43,10 +45,13 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scripting.support.ResourceScriptSource;
 
+import javax.annotation.PostConstruct;
+import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by byang059 on 5/24/20
@@ -81,15 +86,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         redisScript.setScriptSource(new ResourceScriptSource(
                 new ClassPathResource("request_rate_limiter.lua")));
         redisScript.setResultType(List.class);
-        return redisScript;
-    }
-
-    @Bean("readCountRateLimiter")
-    public RedisScript<String> readCountRateLimiter() {
-        DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
-        redisScript.setScriptSource(new ResourceScriptSource(
-                new ClassPathResource("read_count_rate_limiter.lua")));
-        redisScript.setResultType(String.class);
         return redisScript;
     }
 

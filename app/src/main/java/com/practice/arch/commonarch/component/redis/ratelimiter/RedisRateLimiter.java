@@ -40,8 +40,7 @@ public class RedisRateLimiter {
         List<Object> keys = getKeys(id);
         // The arguments to the LUA script. time() returns unixtime in seconds.
         List<Long> result = redisTemplate.execute(redisScript, keys, replenishRate,
-                burstCapacity, Instant.now().getEpochSecond(),
-                requestedTokens);
+                burstCapacity, Instant.now().getEpochSecond(), requestedTokens);
         return new RateLimiterDTO(result.get(0) == 1, result.get(1));
     }
 
