@@ -13,6 +13,7 @@ import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
 import com.practice.arch.commonarch.utils.JsonUtil;
 import com.practice.arch.commonarch.utils.TokenUtil;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
