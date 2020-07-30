@@ -1,4 +1,8 @@
-image=maven
-name=common-arch
-serviceOverrides=false
-type=service
+name: 'platform-backend'
+trunkBranch: 'development'
+gitCredentialsId: 'github-token'
+gitRepositoryOwner: 'GlobalAnalyticApps/CI_Platform'
+gitRepositorySchema: 'https'
+gitRepositoryHost: 'github.pwc.com'
+dockerRegistry: 'xipcontainerregistrydev.azurecr.io'
+dockerRegistryCredentialsId: 'docker-registry-creds'
