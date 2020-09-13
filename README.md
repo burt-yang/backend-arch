@@ -33,6 +33,8 @@
 
 
 
+websocket
+
 future:
 zookeeper
 dubbo
@@ -46,6 +48,5 @@ Hibernate
 Dubbo
 Zookeeper
 Message Queue
-
-
-
+ES
+canal
