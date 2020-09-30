@@ -15,6 +15,9 @@ import com.practice.arch.common.repository.AmUserRepository;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.domain.po.RolePO;
 import com.practice.arch.commonarch.domain.po.UserPO;
+import com.practice.arch.commonarch.enums.ResultCode;
+import com.practice.arch.commonarch.exception.AppException;
+import com.practice.arch.commonarch.exception.NotFoundException;
 import com.practice.arch.commonarch.service.TokenService;
 import com.practice.arch.commonarch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +76,7 @@ public class UserServiceImpl implements UserService {
         String accessToken = tokenService.createAccessToken(refreshToken, user);
         user.setAccessToken(accessToken);
         user.setRefreshToken(refreshToken);
-        return user;
+        throw new NotFoundException(ResultCode.USER_NOT_FOUND);
+//        return user;
     }
 }

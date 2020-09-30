@@ -27,6 +27,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -186,7 +187,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
             resultCode = TOKEN_INVALID;
         } else if (e instanceof UsernameNotFoundException) {
             resultCode = USER_NOT_FOUND;
-        } else if (e instanceof BadCredentialsException) {
+        } else if (e instanceof BadCredentialsException || e instanceof InsufficientAuthenticationException) {
             resultCode = BAD_CREDENTIALS;
         } else if (e instanceof LockedException) {
             resultCode = ACCOUNT_LOCKED;
