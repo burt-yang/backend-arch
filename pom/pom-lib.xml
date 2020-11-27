@@ -5,27 +5,16 @@
 
     <artifactId>library</artifactId>
     <version>1.0.0</version>
-    <!--parent pom will not package-->
     <packaging>pom</packaging>
 
     <parent>
         <groupId>com.practice.arch</groupId>
         <artifactId>common-arch</artifactId>
         <version>1.0.0</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
-        <docker.image.prefix>arch</docker.image.prefix>
-        <maven.parent.pom.path>${basedir}/pom.xml</maven.parent.pom.path>
-        <project.version>1.0.0</project.version>
-    </properties>
+    <dependencies>
 
-
-    <dependencyManagement>
-        <dependencies>
-        </dependencies>
-    </dependencyManagement>
+    </dependencies>
 </project>

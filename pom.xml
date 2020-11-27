@@ -6,7 +6,6 @@
     <groupId>com.practice.arch</groupId>
     <artifactId>common-arch</artifactId>
     <version>1.0.0</version>
-    <!--parent pom will not package-->
     <packaging>pom</packaging>
 
     <parent>
@@ -17,9 +16,9 @@
     </parent>
 
     <modules>
-        <module>pom/web</module>
-        <module>pom/library</module>
-        <module>web/app</module>
+        <module>pom/pom-lib.xml</module>
+        <module>pom/pom-web.xml</module>
+        <module>core/app</module>
         <module>support/mybatis-generator</module>
         <module>support/mybatis</module>
         <module>support/common</module>
@@ -29,7 +28,6 @@
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
         <docker.image.prefix>arch</docker.image.prefix>
-        <maven.parent.pom.path>${basedir}/pom.xml</maven.parent.pom.path>
         <project.version>1.0.0</project.version>
     </properties>
 

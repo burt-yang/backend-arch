@@ -11,7 +11,7 @@
         <artifactId>library</artifactId>
         <groupId>com.practice.arch</groupId>
         <version>1.0.0</version>
-        <relativePath/>
+        <relativePath>../../pom/pom-lib.xml</relativePath>
     </parent>
 
     <properties>

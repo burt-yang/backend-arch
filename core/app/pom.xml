@@ -15,7 +15,7 @@
         <artifactId>web</artifactId>
         <groupId>com.practice.arch</groupId>
         <version>1.0.0</version>
-        <relativePath>../../pom/web/pom.xml</relativePath>
+        <relativePath>../../pom/pom-web.xml</relativePath>
     </parent>
 
     <dependencies>
