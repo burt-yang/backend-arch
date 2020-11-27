@@ -31,6 +31,10 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
+                <!--override for custom dockerfile-->
+                <configuration>
+                    <dockerDirectory>${basedir}/src/main/docker</dockerDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>

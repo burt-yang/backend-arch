@@ -150,7 +150,7 @@
                     <configuration>
                         <useGitCommitId>true</useGitCommitId>
                         <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                        <dockerDirectory>src/main/docker</dockerDirectory>
+                        <dockerDirectory>docker</dockerDirectory>
                         <retryPushCount>2</retryPushCount>
                         <retryPushTimeout>20</retryPushTimeout>
                         <resources>
