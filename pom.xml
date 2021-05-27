@@ -32,6 +32,7 @@
     </properties>
 
 
+    <!--依赖管理，只声明版本，并不引入-->
     <dependencyManagement>
         <dependencies>
             <dependency>

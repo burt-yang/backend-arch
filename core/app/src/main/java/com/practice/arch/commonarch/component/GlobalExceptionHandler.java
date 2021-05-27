@@ -72,7 +72,7 @@ import static com.practice.arch.commonarch.enums.ResultCode.USER_NOT_FOUND;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationEntryPoint, AccessDeniedHandler, CacheErrorHandler {
 
     /**
-     * handle application e
+     * 自定义程序异常
      */
     @ExceptionHandler(AppException.class)
     public ResponseEntity<Object> handleAppException(AppException e) {
@@ -82,17 +82,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     }
 
     /**
-     * handle login e of security
-     */
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<Object> handleSpringSecurityException(AuthenticationException e) {
-        log.error(e.getMessage(), e);
-        ResultCode resultCode = handleAuthenticationException(e);
-        return resultCode.toResponseEntity();
-    }
-
-    /**
-     * handle application unknown e
+     * 未知程序异常
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUnknownException(Exception e) {
@@ -125,7 +115,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     }
 
     /**
-     * handle SpringMVC exceptions
+     * 处理SpringMVC异常
      */
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -135,7 +125,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     }
 
     /**
-     * handle Spring Security exceptions - not auth user
+     * 处理Token异常相关
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleSpringSecurityException(AuthenticationException e) {
+        log.error(e.getMessage(), e);
+        ResultCode resultCode = handleAuthenticationException(e);
+        return resultCode.toResponseEntity();
+    }
+
+    /**
+     * 处理Spring Security - 授权失败
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
@@ -147,7 +147,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     }
 
     /**
-     * handle spring security exceptions - auth user access not permit resource
+     * 处理Spring Security - 授权成功，但无权访问
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {

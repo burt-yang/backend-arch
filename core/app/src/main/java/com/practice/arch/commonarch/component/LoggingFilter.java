@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 
 /**
+ * 方法入参日志记录以及请求日志记录
  * Created by byang059 on 01/05/18.
  */
 @Aspect
