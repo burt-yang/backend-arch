@@ -11,9 +11,20 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RateLimiter {
+    /**
+     * @return How many requests per second do you want a user to be allowed to do?
+     */
     int replenishRate() default 2;
 
+    /**
+     * @return How much bursting do you want to allow?
+     */
     int burstCapacity() default 200;
 
+    /**
+     * @return How many tokens are requested per request?
+     */
     int requestedTokens() default 1;
+
+
 }

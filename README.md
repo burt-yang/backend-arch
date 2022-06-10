@@ -30,7 +30,8 @@
     2、aof append only file
 
 16、redis击穿、雪崩
-17、幂等
+17、接口幂等，消息队列幂等
+18、
 
 
 
@@ -51,3 +52,47 @@ Zookeeper
 Message Queue
 ES
 canal
+sharding-jdbc分库分表
+Mysql高可用方案MHA: 主从切换、主从复制、master选举协议
+
+
+三级缓存流程
+
+一级缓存，singletonObjects，存储所有已创建完毕的单例 Bean （完整的 Bean）
+二级缓存，earlySingletonObjects，存储所有仅完成实例化，但还未进行属性注入和初始化的 Bean
+三级缓存，singletonFactories，存储能建立这个 Bean 的一个工厂，通过工厂能获取这个 Bean，延迟化 Bean 的生成，工厂生成的 Bean 会塞入二级缓存
+Set集合，singletonsCurrentlyInCreation，bean正在在创建中的集合
+
+getBean(A)
+1.1.AnnotationConfigServletWebServerApplicationContext AbstractApplicationContext getBean()
+1.2.DefaultListableBeanFactory getBean() -> resolveBean() -> resolveNamedBean()
+1.3.AbstractBeanFactory getBean() -> doGetBean() -> getSingleton()
+1.4.DefaultSingletonBeanRegistry getSingleton(beanName) 返回null (singletonObjects 空，earlySingletonObjects空，singletonFactories空)
+1.5.DefaultSingletonBeanRegistry getSingleton(beanName, ObjectFactory)
+1.6.DefaultSingletonBeanRegistry beforeSingletonCreation() -> this.singletonsCurrentlyInCreation.add(beanName) singletonsCurrentlyInCreation[A]
+    2.0.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory createBean() -> doCreateBean() -> createBeanInstance() A实例初始化完成
+    2.1.boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && isSingletonCurrentlyInCreation(beanName)) 返回true
+    2.2.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, A实例)); 如果A实例有SmartInstantiationAwareBeanPostProcessor处理器，延时调用生成动态代理对象 (singletonObjects 空，earlySingletonObjects空，singletonFactories[ObjectFactory(A)])
+    2.3.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory populateBean() -> applyPropertyValues()
+    2.4.BeanDefinitionValueResolver resolveValueIfNecessary(B) -> resolveInnerBean(B)
+    2.5.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory getBean(B)
+
+A实例已创建，往A中注入B，初始化B实例
+    2.6.AbstractBeanFactory getBean(B) -> doGetBean(B) -> getSingleton(B)
+    2.7.DefaultSingletonBeanRegistry getSingleton(B) 返回null
+    2.8.DefaultSingletonBeanRegistry getSingleton(B, ObjectFactory)
+    2.9.DefaultSingletonBeanRegistry beforeSingletonCreation() -> this.singletonsCurrentlyInCreation.add(B) singletonsCurrentlyInCreation[B]
+        3.0.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory createBean() -> doCreateBean() -> createBeanInstance() B实例初始化完成
+        3.1.boolean earlySingletonExposure = (mbd.isSingleton() && this.allowCircularReferences && isSingletonCurrentlyInCreation(beanName)) 返回true
+        3.2.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, B实例)); 如果A实例有SmartInstantiationAwareBeanPostProcessor处理器，延时调用生成动态代理对象 (singletonObjects 空，earlySingletonObjects空，singletonFactories[ObjectFactory(A), ObjectFactory(B)])
+        3.3.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory populateBean() -> applyPropertyValues()
+        3.4.BeanDefinitionValueResolver resolveValueIfNecessary(B) -> resolveInnerBean(A)
+        3.5.DefaultListableBeanFactory AbstractAutowireCapableBeanFactory getBean(A)
+
+A实例已创建，往A中注入B，B实例已创建,往B中注入A
+        3.6.AbstractBeanFactory getBean(A) -> doGetBean(A) -> getSingleton(A)
+        3.7.DefaultSingletonBeanRegistry getSingleton(A) 调用getEarlyBeanReference提前获取A的引用 (singletonObjects 空，earlySingletonObjects[A]，singletonFactories[ObjectFactory(B)])
+        3.8.DefaultSingletonBeanRegistry addSingleton(A) (singletonObjects[A]，earlySingletonObjects 空，singletonFactories[ObjectFactory(B)])
+A实例已创建，往A中注入B，B实例已创建,往B中注入A完成
+    2.10.DefaultSingletonBeanRegistry addSingleton(B, ObjectFactory) (singletonObjects[A,B]，earlySingletonObjects 空，singletonFactories 空)
+1.7.DefaultSingletonBeanRegistry addSingleton(A, ObjectFactory) (singletonObjects[A,B]，earlySingletonObjects 空，singletonFactories 空)
