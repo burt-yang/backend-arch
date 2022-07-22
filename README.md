@@ -96,3 +96,22 @@ A实例已创建，往A中注入B，B实例已创建,往B中注入A
 A实例已创建，往A中注入B，B实例已创建,往B中注入A完成
     2.10.DefaultSingletonBeanRegistry addSingleton(B, ObjectFactory) (singletonObjects[A,B]，earlySingletonObjects 空，singletonFactories 空)
 1.7.DefaultSingletonBeanRegistry addSingleton(A, ObjectFactory) (singletonObjects[A,B]，earlySingletonObjects 空，singletonFactories 空)
+
+
+框架核心类：
+Mybatis: 
+Configuration：所有配置都在这里
+SqlSessionFactory: 生产一个session
+SqlSessionTemplate: 发送sql查询请求
+@Mapper:定义在mapper类
+MapperProxy:mapper类的动态代理类，JDK动态代理
+
+sharding-jdbc
+读写分离业务
+1.application.yml配置文件：spring.shardingsphere.masterslave:
+2.springboot自动配置，注入MasterSlaveDataSource
+3.SpringTransactionManager承接mybatis和DataSource桥梁，DataSource新增复用池，jdbc没有复用池
+MasterSlaveDataSource 中包含多数据源DataSource，包装三方c3p0等连接池
+4.发动sql，对sql内容解析，select默认走从库，其他走master库，HintManager中setMasterRouteOnly()方法强制走主库
+    实现类：MasterSlaveDataSourceRouter
+
