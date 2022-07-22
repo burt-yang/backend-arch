@@ -61,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Autowired
     TokenService tokenService;
 
-    @Autowired
-    RateLimiterInterceptor rateLimiterInterceptor;
+//    @Autowired
+//    RateLimiterInterceptor rateLimiterInterceptor;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -89,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(rateLimiterInterceptor);
+//        registry.addInterceptor(rateLimiterInterceptor);
     }
 
     @Bean

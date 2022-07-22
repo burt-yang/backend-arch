@@ -9,7 +9,9 @@ package com.practice.arch.commonarch.component.redis.ratelimiter;
 
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * Created by byang059 on 5/27/20
  */
 @Component
+@ConditionalOnBean(RedissonAutoConfiguration.class)
 public class RateLimiterInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired

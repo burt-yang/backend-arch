@@ -7,6 +7,7 @@
 
 package com.practice.arch.commonarch.controller;
 
+import com.practice.arch.common.domain.AmUser;
 import com.practice.arch.commonarch.component.redis.ratelimiter.RateLimiter;
 import com.practice.arch.commonarch.domain.dto.UserDTO;
 import com.practice.arch.commonarch.service.TimeService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,6 +55,11 @@ public class UserController {
 //        timeService.testAspectj();
 //        get();
         return false;
+    }
+
+    @GetMapping("/get")
+    public List<AmUser> getTime() {
+        return timeService.get();
     }
 
     private boolean get() {

@@ -21,6 +21,7 @@ import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -58,6 +59,7 @@ import java.util.Objects;
  */
 @EnableCaching
 @Configuration
+@ConditionalOnBean(RedissonAutoConfiguration.class)
 public class RedisConfig extends CachingConfigurerSupport {
     @Autowired
     RedissonConnectionFactory redissonConnectionFactory;

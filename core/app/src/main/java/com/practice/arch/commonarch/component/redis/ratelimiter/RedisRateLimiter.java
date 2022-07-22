@@ -7,8 +7,10 @@
 
 package com.practice.arch.commonarch.component.redis.ratelimiter;
 
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import java.util.List;
  * Created by byang059 on 5/26/20
  */
 @Component
+@ConditionalOnBean(RedissonAutoConfiguration.class)
 public class RedisRateLimiter {
     @Autowired
     RedisTemplate<Object, Object> redisTemplate;

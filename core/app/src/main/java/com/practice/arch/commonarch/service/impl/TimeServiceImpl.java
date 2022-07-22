@@ -8,12 +8,14 @@
 package com.practice.arch.commonarch.service.impl;
 
 import com.practice.arch.common.domain.AmUser;
+import com.practice.arch.common.domain.AmUserCriteria;
 import com.practice.arch.common.repository.AmUserRepository;
 import com.practice.arch.commonarch.component.redis.lock.DistributedLock;
 import com.practice.arch.commonarch.enums.ResultCode;
 import com.practice.arch.commonarch.exception.AppException;
 import com.practice.arch.commonarch.service.TimeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.api.hint.HintManager;
 import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -21,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -31,8 +34,8 @@ import java.util.function.BiConsumer;
 @Service
 @Slf4j
 public class TimeServiceImpl implements TimeService {
-    @Autowired
-    RedissonClient redisson;
+//    @Autowired
+//    RedissonClient redisson;
 
     @Autowired
     AmUserRepository amUserRepository;
@@ -42,6 +45,7 @@ public class TimeServiceImpl implements TimeService {
     @Override
     public Long getTime(String a, int b) {
         log.info("get lock");
+//        HintManager.getInstance().setMasterRouteOnly();
         final AmUser record = new AmUser().withEmail(UUID.randomUUID().toString()).withPassword("123");
         amUserRepository.insert(record);
         return Long.valueOf(record.getId());
@@ -52,12 +56,8 @@ public class TimeServiceImpl implements TimeService {
         return getTime("a", 1);
     }
 
-    private boolean get() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public List<AmUser> get() {
+        HintManager.getInstance().setMasterRouteOnly();
+        return amUserRepository.selectByExample(new AmUserCriteria());
     }
 }

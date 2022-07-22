@@ -20,7 +20,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RFuture;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -32,6 +34,7 @@ import java.util.UUID;
 @Component
 @Aspect
 @Slf4j
+@ConditionalOnBean(RedissonAutoConfiguration.class)
 public class DistributedLockHandler extends AbstractAnnotationCacheInitialingProcessor<DistributedLock, LockDTO> {
 
     @Autowired
