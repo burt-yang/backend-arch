@@ -22,6 +22,7 @@
         <module>support/mybatis-generator</module>
         <module>support/mybatis</module>
         <module>support/common</module>
+        <module>core/netty</module>
     </modules>
 
     <properties>
@@ -126,6 +127,11 @@
                 <groupId>ognl</groupId>
                 <artifactId>ognl</artifactId>
                 <version>3.2.15</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>4.1.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
